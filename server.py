@@ -31,7 +31,7 @@ def send_static(path):
 def uploadVideo():
 
     def isAllowed(filename):
-        return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv"])) > 0
+        return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv", "webm"])) > 0
 
     file = request.files.getlist("video")[0]
 
@@ -43,7 +43,7 @@ def uploadVideo():
         response = jsonify({"success" : filename})
         jsonify(get_prediction(file_path))
     else:
-       bad_request("Invalid file")
+        response = bad_request("Invalid file")
 
     return response
 

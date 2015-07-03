@@ -5,6 +5,7 @@ import connectToStores from "alt/utils/connectToStores";
 import FileInput from "../components/fileInput.jsx";
 import Spinner from "../components/spinner.jsx";
 import ImageCard from "../components/imageCard.jsx";
+import VideoCapture from "../components/videoCapture.jsx";
 import VideoStore from "../stores/videoStore.js";
 import VideoActions from "../actions/videoActions.js";
 
@@ -78,6 +79,11 @@ class Home extends Component {
         <p>
           Upload a video or select on the examples below.
         </p>
+        <div className="row">
+          <div className="col s12">
+            <VideoCapture ref="videoCapture"/>
+          </div>
+        </div>
         <div className="row">
           <div className="col s12">
             <form action="" onSubmit={this.handleSubmitVideo.bind(this)} >

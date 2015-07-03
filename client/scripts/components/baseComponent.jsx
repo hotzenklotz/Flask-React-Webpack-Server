@@ -1,4 +1,5 @@
 import React from "react";
+import ReactAddons from "react/addons"
 
 class BaseComponent extends React.Component {
 
@@ -10,6 +11,10 @@ class BaseComponent extends React.Component {
     methodNames.forEach(name => {
       this[name] = this[name].bind(this);
     });
+  }
+
+  updateState(query) {
+    this.setState(ReactAddons.addons.update(this.state, query));
   }
 
 };

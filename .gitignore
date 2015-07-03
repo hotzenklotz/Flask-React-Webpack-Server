@@ -55,3 +55,11 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# IntelliJ
+.idea/
+*.iml
+
+# Webserver
+node_modules/
+dist/

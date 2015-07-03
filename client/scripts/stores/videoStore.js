@@ -42,12 +42,12 @@ class VideoStore {
 
   onUploadVideo(videoFile) {
 
-     const payload = {
-        video : file
-      };
+    const payload = {
+      video : videoFile
+    };
 
-      API.postVideo(payload)
-      this.isUploading = true;
+    API.postVideo(payload)
+    this.isUploading = true;
   }
 
   onUseExample(videoId) {
