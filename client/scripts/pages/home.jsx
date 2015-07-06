@@ -1,4 +1,5 @@
 import React from "react";
+import ReactAddons from "react/addons"
 import _ from "lodash";
 import Component from "../components/baseComponent.jsx";
 import connectToStores from "alt/utils/connectToStores";
@@ -73,6 +74,7 @@ class Home extends Component {
 
     const spinner =  this.getSpinner();
     const exampleVideos = this.getExampleVideoCards();
+    const CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
     return (
       <div>
@@ -95,7 +97,9 @@ class Home extends Component {
                   Submit
                   <i className="material-icons right">send</i>
                 </button>
-                {spinner}
+                <CSSTransitionGroup transitionName="spinner">
+                  {spinner}
+                </CSSTransitionGroup>
               </div>
             </form>
           </div>
