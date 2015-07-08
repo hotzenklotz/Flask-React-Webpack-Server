@@ -7,6 +7,7 @@ class ImageCard extends Component {
 
 
   getCardActions() {
+
     if (this.props.actions.length > 0) {
       return (
         <div className="card-action">
@@ -32,7 +33,7 @@ class ImageCard extends Component {
           <p>{this.props.content}</p>
         </div>
         {cardActions}
-    </div>
+      </div>
     );
   }
 

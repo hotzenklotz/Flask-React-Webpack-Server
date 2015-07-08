@@ -57,14 +57,14 @@ class Home extends Component {
 
       return (
         <div className="col s6 m4" key={video.title}>
-          <a href="#" onClick={this.handleClickExample.bind(this, video.id)}>
+          <div className="card-link" onClick={this.handleClickExample.bind(this, video.id)}>
             <ImageCard
               image={video.thumbnail}
               title={video.title}
               content={video.activity}
               actions={actions}
             />
-          </a>
+          </div>
         </div>
       )
     });
