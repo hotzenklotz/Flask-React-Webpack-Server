@@ -14,7 +14,7 @@ class ResultStore {
     debugger;
     this.predictions.push(prediction);
 
-    RouterActions.transition("info")
+    // RouterActions.transition("info")
 
   }
 
