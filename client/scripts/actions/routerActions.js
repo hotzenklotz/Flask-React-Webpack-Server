@@ -1,17 +1,13 @@
 import alt from "../alt";
-import Router from "react-router"
+import Router from "../lib/router";
 
 class RouterActions {
 
   transition(nextPage) {
 
-    Router.transitionTo("step", {stepUrl: nextPage});
+    Router.transitionTo("info", {stepUrl: nextPage});
 
-    this.dispatch({
-        actionType: RouterConstants.UPDATE_PAGE,
-        nextPage: nextPage
-    });
   }
 }
 
-module.exports = alt.createActions(RouterActions)
+export default alt.createActions(RouterActions)

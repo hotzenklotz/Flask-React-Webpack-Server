@@ -10,4 +10,4 @@ class VideoActions {
   }
 }
 
-module.exports = alt.createActions(VideoActions)
+export default alt.createActions(VideoActions)

@@ -11,10 +11,9 @@ class ResultStore {
   }
 
   onReceivePrediction(prediction) {
-    debugger;
     this.predictions.push(prediction);
 
-    // RouterActions.transition("info")
+    RouterActions.transition("info")
 
   }
 
