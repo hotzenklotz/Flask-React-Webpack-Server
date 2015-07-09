@@ -25,7 +25,6 @@ def index():
 def send_static(path):
     # Assets and video are in different directories
     if path.startswith("videos"):#
-        print "FOO"
         path = path.replace("videos/", "")
         print  send_from_directory(app.config["UPLOAD_FOLDER"], path)
         return send_from_directory(app.config["UPLOAD_FOLDER"], path)
@@ -37,7 +36,7 @@ def send_static(path):
 def uploadVideo():
 
     def isAllowed(filename):
-        return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv", "webm"])) > 0
+        return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv", "webm", "mp4"])) > 0
 
     file = request.files.getlist("video")[0]
 
@@ -78,7 +77,7 @@ def get_prediction(file_path):
     result = {
         "video" : {
             "url" : "%s" % file_path,
-            "length" : "1000ms"
+            "framerate" : 25
         },
         "frames" : [
             {
@@ -112,7 +111,7 @@ def get_prediction(file_path):
                 ]
             },
             {
-                "frameNumber" : 40,
+                "frameNumber" : 80,
                 "predictions" : [
                     {"label" : "archery", "prob" : 0.7},
                     {"label" : "militaryparade", "prob" : 0.2},

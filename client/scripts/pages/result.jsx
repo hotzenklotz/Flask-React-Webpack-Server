@@ -15,27 +15,62 @@ class Result extends Component {
   }
 
   onDataClicked(datum) {
-    console.log(datum);
+
+    const video = this.props.video
+
+    // Calculate video timepoint from frame number (datum.x)
+    const timepoint = datum.x / video.framerate
+    this.refs.video.getDOMNode().currentTime = timepoint;
   }
 
-  render() {
+  getChartData() {
 
     const frameNumbers = ["frameNumber"].concat(ResultStore.getFrameNumbers());
     const groupedPredictions = ResultStore.getGroupedPredictions();
     let columns = _.map(groupedPredictions, (value, key) => [key].concat(value));
     columns.push(frameNumbers);
 
-    const data = {
+    return {
       x : "frameNumber",
       columns : columns
     }
-    debugger
+  }
+
+  onVideoHover(evt) {
+
+    const videoElement = this.refs.video.getDOMNode();
+
+    if(event.type === "mouseenter") {
+      videoElement.createAttribute("controls");
+    } else if(event.type === "mouseleave") {
+      videoElement.removeAttribute("controls");
+    }
+  }
+
+  render() {
 
     return (
-      <div>
-        <h2>Result</h2>
-        <video src={this.props.video.url} controls/>
-        <LineChart data={data} onDataClick={this.onDataClicked.bind(this)}/>
+      <div className="result-page">
+        <div className="row">
+          <div className="col s12 m6">
+            <div className="card-panel teal video-panel valign-wrapper">
+              <video ref="video" src={this.props.video.url} loop className="responsive-video valign" onHover={this.onVideoHover.bind(this)}/>
+            </div>
+          </div>
+          <div className="col s12 m6">
+            <div className="card-panel center-align prediction-panel">
+              BARCHART
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col s12">
+            <div className="card-panel">
+              <h3 className="card-title">Top 5 Predictated Labels per Frame</h3>
+              <LineChart data={this.getChartData()} onDataClick={this.onDataClicked.bind(this)}/>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

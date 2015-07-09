@@ -76,32 +76,33 @@ class Home extends Component {
     const exampleVideos = this.getExampleVideoCards();
     const CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
+   // <div className="row">
+   //        <div className="col s12">
+   //          <VideoCapture ref="videoCapture"/>
+   //        </div>
+   //      </div>
+
     return (
-      <div>
-        <p>
-          Upload a video or select on the examples below.
-        </p>
+      <div className="home-page">
         <div className="row">
           <div className="col s12">
-            <VideoCapture ref="videoCapture"/>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col s12">
-            <form action="" onSubmit={this.handleSubmitVideo.bind(this)} >
-              <FileInput placeholder="Upload a video file." fileFilter="video/*" ref="fileInput" />
-              <div className="form-submit">
-                <button
-                  className="btn waves-effect waves-light"
-                  type="submit">
-                  Submit
-                  <i className="material-icons right">send</i>
-                </button>
-                <CSSTransitionGroup transitionName="spinner">
-                  {spinner}
-                </CSSTransitionGroup>
-              </div>
-            </form>
+            <div className="card-panel">
+              <div className="card-title">Upload a Video for Classification</div>
+              <form action="" onSubmit={this.handleSubmitVideo.bind(this)} >
+                <FileInput placeholder="Upload a video file." fileFilter="video/*" ref="fileInput" />
+                <div className="form-submit">
+                  <button
+                    className="btn waves-effect waves-light"
+                    type="submit">
+                    Submit
+                    <i className="material-icons right">send</i>
+                  </button>
+                  <CSSTransitionGroup transitionName="spinner">
+                    {spinner}
+                  </CSSTransitionGroup>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
         <div className="row">
