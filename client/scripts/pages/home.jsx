@@ -56,7 +56,7 @@ class Home extends Component {
       ];
 
       return (
-        <div className="col s6 m4" key={video.title}>
+        <div className="col s12 m4" key={video.title}>
           <div className="card-link" onClick={this.handleClickExample.bind(this, video.id)}>
             <ImageCard
               image={video.thumbnail}

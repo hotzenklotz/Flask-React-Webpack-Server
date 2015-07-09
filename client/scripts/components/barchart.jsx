@@ -4,7 +4,7 @@ import C3 from "c3";
 import C3CSS from "c3-css";
 import Component from "./baseComponent.jsx";
 
-class LineChart extends Component {
+class BarChart extends Component {
 
   componentDidMount() {
     this.generateChart();
@@ -16,18 +16,33 @@ class LineChart extends Component {
   generateChart() {
 
     _.extend(this.props.data, {
-      selection : {
-        enabled : true,
-        multiple : false
+      onclick : this.props.onDataClick,
+      type : "bar",
+      tooltip : {
+        show : false
       },
-      onclick : this.props.onDataClick
+      labels : {
+        format : (value) => value.toFixed(2)
+      },
+
     })
 
     const chart = C3.generate({
       bindto : this.refs.chart.getDOMNode(),
       data : this.props.data,
+      interaction : {
+        enabled : false
+      },
+      axis: {
+        x: {
+          show : false
+        }
+      },
       color: {
         pattern: ["#2196F3", "#4dd0e1", "#e57373 ", "#4db6ac",  "#fff176", "#7986cb",]
+      },
+      legend : {
+        position : "bottom"
       }
     });
 
@@ -39,13 +54,13 @@ class LineChart extends Component {
 
 };
 
-LineChart.propTypes = {
+BarChart.propTypes = {
   data : React.PropTypes.object.isRequired,
   onDataClick : React.PropTypes.func
 }
 
-LineChart.defaultProps = {
+BarChart.defaultProps = {
   onDataClick : _.noop
 }
 
-export default LineChart;
+export default BarChart;

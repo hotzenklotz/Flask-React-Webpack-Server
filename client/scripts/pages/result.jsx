@@ -1,6 +1,7 @@
 import React from "react";
 import connectToStores from "alt/utils/connectToStores";
 import LineChart from "../components/linechart.jsx";
+import BarChart from "../components/barchart.jsx";
 import Component from "../components/baseComponent.jsx";
 import ResultStore from "../stores/resultStore"
 
@@ -23,7 +24,26 @@ class Result extends Component {
     this.refs.video.getDOMNode().currentTime = timepoint;
   }
 
-  getChartData() {
+  getBarChartData() {
+
+    const groupedPredictions = ResultStore.getGroupedPredictions();
+    const columns = _.chain(groupedPredictions)
+      .map((value, key) => {
+        const average = _.sum(value) / value.length;
+        return [key, average];
+      })
+      .sortBy(column => column[1])
+      .reverse()
+      .slice(0, 5)
+      .value();
+
+    return {
+      columns : columns
+    }
+
+  }
+
+  getLineChartData() {
 
     const frameNumbers = ["frameNumber"].concat(ResultStore.getFrameNumbers());
     const groupedPredictions = ResultStore.getGroupedPredictions();
@@ -66,7 +86,7 @@ class Result extends Component {
           </div>
           <div className="col s12 m6">
             <div className="card-panel center-align prediction-panel">
-              BARCHART
+              <BarChart data={this.getBarChartData()} />
             </div>
           </div>
         </div>
@@ -74,7 +94,7 @@ class Result extends Component {
           <div className="col s12">
             <div className="card-panel">
               <h3 className="card-title">Top 5 Predictated Labels per Frame</h3>
-              <LineChart data={this.getChartData()} onDataClick={this.onDataClicked.bind(this)}/>
+              <LineChart data={this.getLineChartData()} onDataClick={this.onDataClicked.bind(this)} />
             </div>
           </div>
         </div>
