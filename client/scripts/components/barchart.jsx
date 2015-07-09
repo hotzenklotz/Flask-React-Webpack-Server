@@ -33,6 +33,9 @@ class BarChart extends Component {
       interaction : {
         enabled : false
       },
+      size : {
+        height : 290
+      },
       axis: {
         x: {
           show : false
