@@ -40,9 +40,9 @@ class Result extends Component {
 
     const videoElement = this.refs.video.getDOMNode();
 
-    if(event.type === "mouseenter") {
-      videoElement.createAttribute("controls");
-    } else if(event.type === "mouseleave") {
+    if(evt.type === "mouseenter") {
+      videoElement.setAttribute("controls", null);
+    } else if(evt.type === "mouseleave") {
       videoElement.removeAttribute("controls");
     }
   }
@@ -54,7 +54,14 @@ class Result extends Component {
         <div className="row">
           <div className="col s12 m6">
             <div className="card-panel teal video-panel valign-wrapper">
-              <video ref="video" src={this.props.video.url} loop className="responsive-video valign" onHover={this.onVideoHover.bind(this)}/>
+              <video
+                ref="video"
+                src={this.props.video.url}
+                className="responsive-video valign"
+                onMouseEnter={this.onVideoHover.bind(this)}
+                onMouseLeave={this.onVideoHover.bind(this)}
+                loop
+                />
             </div>
           </div>
           <div className="col s12 m6">
