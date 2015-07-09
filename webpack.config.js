@@ -25,7 +25,7 @@ module.exports = {
       "lodash" : "lodash",
       "jQuery" : "jquery",
       "materialize-css" : path.join(nodePath, "materialize-css", "bin", "materialize.css"),
-      "materialize-js" : path.join(nodePath, "materialize-css", "bin", "materialize.js")
+      "c3-css" : path.join(nodePath, "c3", "c3.css")
     },
     extensions: ["", ".js", ".json", ".coffee", ".css"]
    },

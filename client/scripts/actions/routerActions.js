@@ -5,7 +5,7 @@ class RouterActions {
 
   transition(nextPage) {
 
-    Router.transitionTo("info", {stepUrl: nextPage});
+    Router.transitionTo("result", {stepUrl: nextPage});
 
   }
 }

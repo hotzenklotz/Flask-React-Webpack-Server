@@ -23,8 +23,14 @@ def index():
 
 @app.route("/<path:path>")
 def send_static(path):
-    print "Asset requested: ", path
-    return send_from_directory(static_assets_path, path)
+    # Assets and video are in different directories
+    if path.startswith("videos"):#
+        print "FOO"
+        path = path.replace("videos/", "")
+        print  send_from_directory(app.config["UPLOAD_FOLDER"], path)
+        return send_from_directory(app.config["UPLOAD_FOLDER"], path)
+    else:
+        return send_from_directory(static_assets_path, path)
 
 
 @app.route("/api/upload", methods=["POST"])
@@ -40,8 +46,7 @@ def uploadVideo():
         file_path = path.join(app.config["UPLOAD_FOLDER"], filename)
         file.save(file_path)
 
-        response = jsonify({"success" : filename})
-        jsonify(get_prediction(file_path))
+        response = jsonify(get_prediction(file_path))
     else:
         response = bad_request("Invalid file")
 
@@ -51,7 +56,7 @@ def uploadVideo():
 @app.route("/api/example/<int:example_id>")
 def use_example(example_id):
     if example_id <= 3:
-        filename = "video%s.avi" % example_id
+        filename = "video%s.webm" % example_id
         file_path = path.join(app.config["UPLOAD_FOLDER"], "examples", filename)
         response = jsonify(get_prediction(file_path))
     else:
@@ -70,9 +75,56 @@ def bad_request(reason):
 def get_prediction(file_path):
 
     # Do the Caffe magic
-    return {
-        "activity" : "Archery",
+    result = {
+        "video" : {
+            "url" : "%s" % file_path,
+            "length" : "1000ms"
+        },
+        "frames" : [
+            {
+                "frameNumber" : 1,
+                "predictions" : [
+                    {"label" : "archery", "prob" : 0.7},
+                    {"label" : "wallpushup", "prob" : 0.2},
+                    {"label" : "babycrawling", "prob" : 0.1},
+                    {"label" : "sumowrestling", "prob" : 0.3},
+                    {"label" : "biking", "prob" : 0.5},
+                ]
+            },
+            {
+                "frameNumber" : 17,
+                "predictions" : [
+                    {"label" : "archery", "prob" : 0.7},
+                    {"label" : "wallpushup", "prob" : 0.2},
+                    {"label" : "knitting", "prob" : 0.1},
+                    {"label" : "babycrawling", "prob" : 0.3},
+                    {"label" : "sumowrestling", "prob" : 0.5},
+                ]
+            },
+            {
+                "frameNumber" : 26,
+                "predictions" : [
+                    {"label" : "archery", "prob" : 0.7},
+                    {"label" : "wallpushup", "prob" : 0.2},
+                    {"label" : "knitting", "prob" : 0.1},
+                    {"label" : "sumowrestling", "prob" : 0.3},
+                    {"label" : "biking", "prob" : 0.5},
+                ]
+            },
+            {
+                "frameNumber" : 40,
+                "predictions" : [
+                    {"label" : "archery", "prob" : 0.7},
+                    {"label" : "militaryparade", "prob" : 0.2},
+                    {"label" : "knitting", "prob" : 0.1},
+                    {"label" : "sumowrestling", "prob" : 0.3},
+                    {"label" : "babycrawling", "prob" : 0.5},
+                ]
+            }
+        ]
     }
+
+    return result
 
 
 if __name__ == "__main__":
