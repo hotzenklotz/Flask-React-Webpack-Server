@@ -1,5 +1,5 @@
 # System imports
-import sys, requests, subprocess
+import sys, subprocess
 from os import path
 from flask.ext.cors import CORS
 from flask import *
