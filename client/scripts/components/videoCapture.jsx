@@ -14,12 +14,12 @@ class VideoCapture extends Component {
       videoOptions : {
         type: "video",
         video: {
-        width: 320,
-        height: 240
+          width: 640,
+          height: 480
        },
        canvas: {
-          width: 320,
-          height: 240
+          width: 640,
+          height: 480
        }
       }
     };
@@ -28,29 +28,25 @@ class VideoCapture extends Component {
                              navigator.webkitGetUserMedia ||
                              navigator.mozGetUserMedia;
 
+    navigator.getUserMedia(
+      {video : true},
+      (mediaStream) => {
+
+        this.mediaStream = mediaStream;
+        this.refs.daVideo.getDOMNode().src = window.URL.createObjectURL(mediaStream);
+      },
+      (error) => console.error(error)
+    );
+
   }
 
   handleClick() {
 
     if (this.state.isRecording == false) {
 
-      navigator.getUserMedia(
-        {video : true},
-        (mediaStream) => {
-
-          this.mediaStream = mediaStream;
-          this.refs.daVideo.getDOMNode().src = window.URL.createObjectURL(mediaStream);
-          // this.refs.daVideo.getDOMNode().style = `width: $(options.video.width); height: $(options.video.height)px`;
-
-          this.recordRTC = RecordRTC(mediaStream, this.state.videoOptions)
-          this.recordRTC.startRecording();
-          this.updateState({isRecording : {$set : true}})
-
-        },
-        (error) =>
-          console.error(error)
-      );
-
+      this.recordRTC = RecordRTC(this.mediaStream, this.state.videoOptions)
+      this.recordRTC.startRecording();
+      this.updateState({isRecording : {$set : true}})
 
     } else {
 
@@ -71,16 +67,21 @@ class VideoCapture extends Component {
 
   render() {
 
-    const buttonText = this.state.isRecording ? "Stop Webcam" : "Start Webcam";
+    const buttonText = this.state.isRecording ? "Stop Recording & Submit" : "Start Recording";
     const videoStyle = {
       width : this.state.videoOptions.video.width,
       height : this.state.videoOptions.video.height
     };
 
     return (
-      <div>
-        <a className="waves-effect waves-light btn" onClick={this.handleClick.bind(this)}> {buttonText} <i className="material-icons right">videocam</i></a>
-        <video ref="daVideo" autoPlay loop controls muted style={videoStyle}/>
+      <div className="center-align">
+        <div className="oval-mask-container">
+          <video ref="daVideo" autoPlay muted style={videoStyle}/>
+          <div className="oval-mask"/>
+        </div>
+        <div>
+          <a className="waves-effect waves-light btn" onClick={this.handleClick.bind(this)}> {buttonText} <i className="material-icons right">videocam</i></a>
+        </div>
       </div>
     )
 

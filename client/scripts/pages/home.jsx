@@ -94,11 +94,9 @@ class Home extends Component {
     const errorPanel = this.getErrorPanel();
     const CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
-   // <div className="row">
-   //        <div className="col s12">
-   //          <VideoCapture ref="videoCapture"/>
-   //        </div>
-   //      </div>
+              // Webcam Video Recording
+              // <div className="card-title">Capture a Facial Expression Video with your Webcam</div>
+              // <VideoCapture ref="videoCapture"/>
 
     return (
       <div className="home-page">
@@ -107,9 +105,10 @@ class Home extends Component {
         <div className="row">
           <div className="col s12">
             <div className="card-panel">
-              <div className="card-title">Upload a Video for Classification</div>
+
+              <div className="card-title">Upload a Video File for Classification</div>
               <form action="" onSubmit={this.handleSubmitVideo.bind(this)} >
-                <FileInput placeholder="Upload a video file." fileFilter="video/*" ref="fileInput" />
+                <FileInput placeholder="Select or drop a video file." fileFilter="video/*" ref="fileInput" />
                 <div className="form-submit">
                   <button
                     className="btn waves-effect waves-light"
@@ -122,6 +121,7 @@ class Home extends Component {
                   </CSSTransitionGroup>
                 </div>
               </form>
+
             </div>
           </div>
         </div>
