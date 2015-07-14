@@ -1,5 +1,6 @@
 import React from "react";
 import Component from "./baseComponent.jsx";
+import Dropzone from "./dropzone.jsx";
 
 class FileInput extends Component {
 
@@ -8,15 +9,19 @@ class FileInput extends Component {
     this.state = {fileNames : ""};
   }
 
-  handleChange(evt) {
-    const files = this.getFiles();
+  handleChange(evt, droppedFiles) {
+
+    const files = droppedFiles ? droppedFiles : this.refs.fileInput.getDOMNode().files;
     let fileNames = [];
 
     for (var i=0; i < files.length; i++) {
       fileNames.push(files[i].name);
     }
 
-    this.setState({fileNames : fileNames.join(", ")});
+    this.setState({
+      fileNames : fileNames.join(", "),
+      files : files
+    });
   }
 
   handleClick(evt) {
@@ -24,34 +29,36 @@ class FileInput extends Component {
   }
 
   getFiles() {
-    return this.refs.fileInput.getDOMNode().files;
+    return this.state.files;
   }
 
   render() {
 
     return (
-      <div className="file-field input-field">
-        <div className="btn">
-          <span>File</span>
-          <input
-            type="file"
-            name="video"
-            ref="fileInput"
-            accept={this.props.fileFilter}
-            onChange={this.handleChange.bind(this)} />
+      <Dropzone onDrop={this.handleChange.bind(this)}>
+        <div className="file-field input-field">
+          <div className="btn">
+            <span>File</span>
+            <input
+              type="file"
+              name="video"
+              ref="fileInput"
+              accept={this.props.fileFilter}
+              onChange={this.handleChange.bind(this)} />
+          </div>
+          <div className="file-path-wrapper">
+            <input
+              readOnly
+              value={this.state.fileNames}
+              className="file-path validate"
+              type="text"
+              placeholder={this.props.placeholder}
+              onClick={this.handleClick.bind(this)}
+              ref="filePath"
+               />
+          </div>
         </div>
-        <div className="file-path-wrapper">
-          <input
-            readOnly
-            value={this.state.fileNames}
-            className="file-path validate"
-            type="text"
-            placeholder={this.props.placeholder}
-            onClick={this.handleClick.bind(this)}
-            ref="filePath"
-             />
-        </div>
-      </div>
+      </Dropzone>
     );
   }
 
