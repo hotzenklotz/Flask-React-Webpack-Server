@@ -14,6 +14,7 @@ class VideoStore {
     this.bindActions(VideoActions);
 
     this.isUploading = false;
+    this.isInvalidFile = false;
     this.exampleVideos = [
       {
         id : 1,
@@ -58,6 +59,12 @@ class VideoStore {
 
   onReceivePrediction() {
     this.isUploading = false;
+    this.isInvalidFile = false;
+  }
+
+  onReceiveUploadError() {
+    this.isUploading = false;
+    this.isInvalidFile = true;
   }
 
 };

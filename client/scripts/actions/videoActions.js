@@ -4,6 +4,7 @@ class VideoActions {
   constructor() {
     this.generateActions(
       "receivePrediction",
+      "receiveUploadError",
       "uploadVideo",
       "useExample"
     )

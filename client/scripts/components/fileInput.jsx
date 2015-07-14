@@ -6,7 +6,10 @@ class FileInput extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {fileNames : ""};
+    this.state = {
+      fileNames : "",
+      files : []
+    };
   }
 
   handleChange(evt, droppedFiles) {

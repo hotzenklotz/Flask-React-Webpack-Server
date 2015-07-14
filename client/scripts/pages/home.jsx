@@ -70,10 +70,28 @@ class Home extends Component {
     });
   }
 
+  getErrorPanel() {
+
+    if (this.props.isInvalidFile)
+      return (
+         <div className="row">
+          <div className="col s12">
+            <div className="card-panel red">
+              <p className="white-text">
+                <i className="material-icons">error</i>
+                 You uploaded an invalid file. Only video files are allowed. (avi, mpg, mpeg, mkv, webm, mp4)
+              </p>
+            </div>
+          </div>
+        </div>
+      );
+  }
+
   render() {
 
     const spinner =  this.getSpinner();
     const exampleVideos = this.getExampleVideoCards();
+    const errorPanel = this.getErrorPanel();
     const CSSTransitionGroup = ReactAddons.addons.CSSTransitionGroup;
 
    // <div className="row">
@@ -84,6 +102,8 @@ class Home extends Component {
 
     return (
       <div className="home-page">
+        {errorPanel}
+
         <div className="row">
           <div className="col s12">
             <div className="card-panel">
