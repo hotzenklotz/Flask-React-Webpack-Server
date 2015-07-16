@@ -1,7 +1,5 @@
 import React from "react";
 import Component from "./baseComponent.jsx";
-import { Link } from "react-router";
-import Logo from "../../images/apple-icon-72x72.png";
 
 class ImageCard extends Component {
 

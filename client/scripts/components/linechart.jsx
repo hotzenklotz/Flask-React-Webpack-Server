@@ -28,6 +28,16 @@ class LineChart extends Component {
       data : this.props.data,
       color: {
         pattern: ["#2196F3", "#4dd0e1", "#e57373 ", "#4db6ac",  "#fff176", "#7986cb",]
+      },
+      tooltip: {
+        format : {
+          title: (x) => "Frame #" + x
+        }
+      },
+      axis : {
+        x : {
+          label : "Frame Number"
+        }
       }
     });
 

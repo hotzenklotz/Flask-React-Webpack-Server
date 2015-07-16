@@ -7,8 +7,7 @@ A Flask-Server with React, Webpack, ES6, Alt.Flux and MaterializeCSS
 npm install
 
 // Python dependencies
-pip install flask
-pip install flask-cors
+pip install -r requirements.txt
 ```
 
 ## Run Server

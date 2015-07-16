@@ -108,7 +108,7 @@ class Home extends Component {
 
               <div className="card-title">Upload a Video File for Classification</div>
               <form action="" onSubmit={this.handleSubmitVideo.bind(this)} >
-                <FileInput placeholder="Select or drop a video file." fileFilter="video/*" ref="fileInput" />
+                <FileInput placeholder="Select or drop  a video file." fileFilter="video/*" ref="fileInput" />
                 <div className="form-submit">
                   <button
                     className="btn waves-effect waves-light"

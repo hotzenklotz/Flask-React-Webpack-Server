@@ -18,9 +18,6 @@ class BarChart extends Component {
     _.extend(this.props.data, {
       onclick : this.props.onDataClick,
       type : "bar",
-      tooltip : {
-        show : false
-      },
       labels : {
         format : (value) => value.toFixed(2)
       },
@@ -46,7 +43,10 @@ class BarChart extends Component {
       },
       legend : {
         position : "bottom"
-      }
+      },
+      tooltip : {
+        show : false
+      },
     });
 
   }

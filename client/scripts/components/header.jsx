@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import connectToStores from "alt/utils/connectToStores";
 import Component from "./baseComponent.jsx";
-import Logo from "../../images/apple-icon-72x72.png";
+import Logo from "../../images/apple-touch-icon-72x72.png";
 import ResultStore from "../stores/resultStore.js";
 
 
@@ -37,7 +37,7 @@ class Header extends Component {
         <div className="nav-wrapper">
           <div className="col s12">
             <a href="/" className="brand-logo">
-              <img src="../../images/apple-icon-72x72.png" width="48px" height="48px"/>
+              <img src="../../images/apple-touch-icon-72x72.png" width="48px" height="48px"/>
               UCF101 Video Classifier
             </a>
             <ul className="right hide-on-med-and-down">
