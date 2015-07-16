@@ -61,7 +61,7 @@ class Home extends Component {
             <ImageCard
               image={video.thumbnail}
               title={video.title}
-              content={video.activity}
+              content={"Class: " + video.activity}
               actions={actions}
             />
           </div>

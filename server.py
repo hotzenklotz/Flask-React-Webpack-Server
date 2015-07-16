@@ -17,6 +17,7 @@ from flask_extensions import *
 static_assets_path = path.join(path.dirname(__file__), "dist")
 app = Flask(__name__, static_folder=static_assets_path)
 CORS(app)
+LABELS = ["MilitaryParade", "PlayingSitar", "TennisSwing", "VolleyballSpiking", "HandstandPushups", "Typing", "TableTennisShot", "BrushingTeeth", "StillRings", "HulaHoop", "PlayingDaf", "Drumming", "CricketShot", "ApplyLipstick", "WritingOnBoard", "TrampolineJumping", "YoYo", "BoxingPunchingBag", "Knitting", "Basketball", "PlayingFlute", "JavelinThrow", "ApplyEyeMakeup", "HeadMassage", "RopeClimbing", "WalkingWithDog", "Skijet", "PlayingTabla", "HighJump", "CleanAndJerk", "Fencing", "Archery", "UnevenBars", "HammerThrow", "BaseballPitch", "Haircut", "SalsaSpin", "FrontCrawl", "BabyCrawling", "CuttingInKitchen", "SoccerJuggling", "Billiards", "SkyDiving", "HandstandWalking", "PlayingCello", "Surfing", "SkateBoarding", "Mixing", "FloorGymnastics", "SoccerPenalty", "Swing", "CliffDiving", "Skiing", "Lunges", "ShavingBeard", "BasketballDunk", "HorseRace", "BodyWeightSquats", "Rowing", "RockClimbingIndoor", "HorseRiding", "BlowDryHair", "Diving", "FieldHockeyPenalty", "JumpingJack", "PlayingPiano", "BreastStroke", "JugglingBalls", "FrisbeeCatch", "Rafting", "Biking", "BoxingSpeedBag", "MoppingFloor", "CricketBowling", "ThrowDiscus", "LongJump", "TaiChi", "PushUps", "BandMarching", "JumpRope", "PullUps", "SumoWrestling", "PlayingViolin", "Nunchucks", "Hammering", "GolfSwing", "PommelHorse", "PoleVault", "PizzaTossing", "PlayingDhol", "Punch", "ParallelBars", "PlayingGuitar", "Kayaking", "BalanceBeam", "WallPushups", "IceDancing", "BenchPress", "BlowingCandles", "Bowling", "Shotput"]
 
 
 # ----- Routes ----------
@@ -97,7 +98,7 @@ def get_prediction(file_path):
 
         five_best = np.argpartition(row, -5)[-5:]
         for i in five_best:
-            pred_per_label.append({"label": i, "prob": row[i]})
+            pred_per_label.append({"label": LABELS[i], "prob": row[i]})
 
         new_frame = {
             "frameNumber": index,
