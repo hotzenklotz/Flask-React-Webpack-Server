@@ -11,6 +11,7 @@
     "babel-loader": "^5.1.4",
     "c3": "^0.4.10",
     "css-loader": "^0.15.1",
+    "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
     "jquery": "^2.1.4",
     "less": "^2.5.1",
