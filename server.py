@@ -1,6 +1,7 @@
 # System imports
 import subprocess
 import time
+import flask_extensions
 from os import path
 
 import numpy as np
@@ -30,7 +31,7 @@ def send_static(path):
     # Assets and video are in different directories
     if path.startswith("videos"):
         path = path.replace("videos/", "")
-        print send_from_directory(app.config["UPLOAD_FOLDER"], path)
+        print send_file_partial(app.config["UPLOAD_FOLDER"], path)
         return send_from_directory(app.config["UPLOAD_FOLDER"], path)
     else:
         return send_from_directory(static_assets_path, path)
@@ -39,7 +40,7 @@ def send_static(path):
 @app.route("/api/upload", methods=["POST"])
 def uploadVideo():
     def isAllowed(filename):
-        return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv", "webm", "mp4"])) > 0
+        return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv", "webm", "mp4", "mov"])) > 0
 
     file = request.files.getlist("video")[0]
 
