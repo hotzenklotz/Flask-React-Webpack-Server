@@ -4,6 +4,7 @@ import LineChart from "../components/linechart.jsx";
 import BarChart from "../components/barchart.jsx";
 import Component from "../components/baseComponent.jsx";
 import ResultStore from "../stores/resultStore"
+import ColorStore from "../stores/colorStore"
 
 class Result extends Component {
 
@@ -37,8 +38,11 @@ class Result extends Component {
       .slice(0, 5)
       .value();
 
+    const colors = _.mapValues(groupedPredictions, (value, key) => ColorStore.getColorForLabel(key))
+
     return {
-      columns : columns
+      columns : columns,
+      colors : colors
     }
 
   }
@@ -47,12 +51,16 @@ class Result extends Component {
 
     const frameNumbers = ["frameNumber"].concat(ResultStore.getFrameNumbers());
     const groupedPredictions = ResultStore.getGroupedPredictions();
+
     let columns = _.map(groupedPredictions, (value, key) => [key].concat(value));
     columns.push(frameNumbers);
 
+    const colors = _.mapValues(groupedPredictions, (value, key) => ColorStore.getColorForLabel(key))
+
     return {
       x : "frameNumber",
-      columns : columns
+      columns : columns,
+      colors : colors
     }
   }
 
@@ -93,7 +101,7 @@ class Result extends Component {
         <div className="row">
           <div className="col s12">
             <div className="card-panel">
-              <h3 className="card-title">Top 5 Predictated Labels per Frame</h3>
+              <h3 className="card-title">Top 5 Predicted Labels per Frame</h3>
               <LineChart data={this.getLineChartData()} onDataClick={this.onDataClicked.bind(this)} />
             </div>
           </div>

@@ -38,9 +38,6 @@ class BarChart extends Component {
           show : false
         }
       },
-      color: {
-        pattern: ["#2196F3", "#4dd0e1", "#e57373 ", "#4db6ac",  "#fff176", "#7986cb",]
-      },
       legend : {
         position : "bottom"
       },

@@ -26,9 +26,6 @@ class LineChart extends Component {
     const chart = C3.generate({
       bindto : this.refs.chart.getDOMNode(),
       data : this.props.data,
-      color: {
-        pattern: ["#2196F3", "#4dd0e1", "#e57373 ", "#4db6ac",  "#fff176", "#7986cb",]
-      },
       tooltip: {
         format : {
           title: (x) => "Frame #" + x
