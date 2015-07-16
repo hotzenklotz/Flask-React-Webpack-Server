@@ -1,5 +1,6 @@
 # System imports
-import sys, subprocess
+import sys, subprocess, time
+import numpy as np
 from os import path
 from flask.ext.cors import CORS
 from flask import *
@@ -73,55 +74,33 @@ def bad_request(reason):
 # -------- Prediction & Features --------
 def get_prediction(file_path):
 
-    # Do the Caffe magic
+    # predictions = external_script.predict(file_path)
+    predictions = np.ones((100, 10))
+
+    file_path = file_path + "?cachebuster=%s" % time.time()
     result = {
         "video" : {
             "url" : "%s" % file_path,
             "framerate" : 25
         },
-        "frames" : [
-            {
-                "frameNumber" : 1,
-                "predictions" : [
-                    {"label" : "archery", "prob" : 0.7},
-                    {"label" : "wallpushup", "prob" : 0.2},
-                    {"label" : "babycrawling", "prob" : 0.1},
-                    {"label" : "sumowrestling", "prob" : 0.3},
-                    {"label" : "biking", "prob" : 0.5},
-                ]
-            },
-            {
-                "frameNumber" : 17,
-                "predictions" : [
-                    {"label" : "archery", "prob" : 0.7},
-                    {"label" : "wallpushup", "prob" : 0.2},
-                    {"label" : "knitting", "prob" : 0.1},
-                    {"label" : "babycrawling", "prob" : 0.3},
-                    {"label" : "sumowrestling", "prob" : 0.5},
-                ]
-            },
-            {
-                "frameNumber" : 26,
-                "predictions" : [
-                    {"label" : "archery", "prob" : 0.7},
-                    {"label" : "wallpushup", "prob" : 0.2},
-                    {"label" : "knitting", "prob" : 0.1},
-                    {"label" : "sumowrestling", "prob" : 0.3},
-                    {"label" : "biking", "prob" : 0.5},
-                ]
-            },
-            {
-                "frameNumber" : 80,
-                "predictions" : [
-                    {"label" : "archery", "prob" : 0.7},
-                    {"label" : "militaryparade", "prob" : 0.2},
-                    {"label" : "knitting", "prob" : 0.1},
-                    {"label" : "sumowrestling", "prob" : 0.3},
-                    {"label" : "babycrawling", "prob" : 0.5},
-                ]
-            }
-        ]
+        "frames" : []
     }
+
+    for index, row in enumerate(predictions):
+
+        pred_per_label = []
+
+        five_best = np.argpartition(row, -5)[-5:]
+        for i in five_best:
+            pred_per_label.append({"label" : i, "prob" : row[i]})
+
+        new_frame = {
+            "frameNumber" : index,
+            "predictions" : pred_per_label
+        }
+
+        result["frames"].append(new_frame)
+
 
     return result
 
