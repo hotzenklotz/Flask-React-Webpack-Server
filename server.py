@@ -43,12 +43,12 @@ def send_video(video_path):
 
 @app.route("/api/upload", methods=["POST"])
 def uploadVideo():
-    def isAllowed(filename):
+    def is_allowed(filename):
         return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv", "webm", "mp4", "mov"])) > 0
 
     file = request.files.getlist("video")[0]
 
-    if file and isAllowed(file.filename):
+    if file and is_allowed(file.filename):
         filename = secure_filename(file.filename)
         file_path = path.join(app.config["UPLOAD_FOLDER"], filename)
         file.save(file_path)
@@ -123,4 +123,4 @@ if __name__ == "__main__":
     subprocess.Popen("webpack")
 
     # Start the Flask app
-    app.run(port=9000)
+    app.run(port=9000, threaded=True)
