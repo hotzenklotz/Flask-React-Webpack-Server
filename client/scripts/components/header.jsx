@@ -37,7 +37,7 @@ class Header extends Component {
         <div className="nav-wrapper">
           <div className="col s12">
             <a href="/" className="brand-logo">
-              <img src="../../images/apple-touch-icon-72x72.png" width="48px" height="48px"/>
+              <img src="../../dist/images/apple-touch-icon-72x72.png" width="48px" height="48px"/>
               UCF101 Video Classifier
             </a>
             <ul className="right hide-on-med-and-down">

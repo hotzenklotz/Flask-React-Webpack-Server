@@ -21,20 +21,20 @@ CORS(app)
 
 # ----- Routes ----------
 
-@app.route("/")
-def index():
+@app.route("/", defaults={"fall_through": ""})
+@app.route("/<path:fall_through>")
+def index(fall_through):
     return app.send_static_file("index.html")
 
 
-@app.route("/<path:asset_path>")
+@app.route("/dist/<path:asset_path>")
 def send_static(asset_path):
-    # Assets and video are in different directories
-    if asset_path.startswith("videos"):
-        asset_path = asset_path.replace("videos/", "")
-        return send_file_partial(path.join(app.config["UPLOAD_FOLDER"], asset_path))
+    return send_from_directory(static_assets_path, asset_path)
 
-    else:
-        return send_from_directory(static_assets_path, asset_path)
+
+@app.route("/videos/<path:video_path>")
+def send_video(video_path):
+    return send_file_partial(path.join(app.config["UPLOAD_FOLDER"], video_path))
 
 
 @app.route("/api/upload", methods=["POST"])
