@@ -1,13 +1,13 @@
 # System imports
 import subprocess
 import time
-import flask_extensions
 from os import path
 
 import numpy as np
 from flask.ext.cors import CORS
 from flask import *
 from werkzeug import secure_filename
+from flask_extensions import *
 
 
 
@@ -26,15 +26,15 @@ def index():
     return app.send_static_file("index.html")
 
 
-@app.route("/<path:path>")
-def send_static(path):
+@app.route("/<path:asset_path>")
+def send_static(asset_path):
     # Assets and video are in different directories
-    if path.startswith("videos"):
-        path = path.replace("videos/", "")
-        print send_file_partial(app.config["UPLOAD_FOLDER"], path)
-        return send_from_directory(app.config["UPLOAD_FOLDER"], path)
+    if asset_path.startswith("videos"):
+        asset_path = asset_path.replace("videos/", "")
+        return send_file_partial(path.join(app.config["UPLOAD_FOLDER"], asset_path))
+
     else:
-        return send_from_directory(static_assets_path, path)
+        return send_from_directory(static_assets_path, asset_path)
 
 
 @app.route("/api/upload", methods=["POST"])

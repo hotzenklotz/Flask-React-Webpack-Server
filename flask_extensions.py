@@ -1,4 +1,7 @@
-from flask import send_file
+import os
+import re
+import mimetypes
+from flask import *
 
 def send_file_partial(path):
     """
@@ -8,6 +11,8 @@ def send_file_partial(path):
     """
     range_header = request.headers.get('Range', None)
     if not range_header: return send_file(path)
+
+    print path
 
     size = os.path.getsize(path)
     byte1, byte2 = 0, None
