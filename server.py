@@ -1,18 +1,20 @@
 # System imports
-import sys, subprocess, time
-import numpy as np
+import subprocess
+import time
 from os import path
+
+import numpy as np
 from flask.ext.cors import CORS
 from flask import *
-from flask.json import jsonify
 from werkzeug import secure_filename
+
 
 
 # Local predicition modules
 # sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'prediction')) #find modules in parent_folder/predictions
 
 static_assets_path = path.join(path.dirname(__file__), "dist")
-app = Flask(__name__, static_folder= static_assets_path)
+app = Flask(__name__, static_folder=static_assets_path)
 CORS(app)
 
 
@@ -22,12 +24,13 @@ CORS(app)
 def index():
     return app.send_static_file("index.html")
 
+
 @app.route("/<path:path>")
 def send_static(path):
     # Assets and video are in different directories
-    if path.startswith("videos"):#
+    if path.startswith("videos"):
         path = path.replace("videos/", "")
-        print  send_from_directory(app.config["UPLOAD_FOLDER"], path)
+        print send_from_directory(app.config["UPLOAD_FOLDER"], path)
         return send_from_directory(app.config["UPLOAD_FOLDER"], path)
     else:
         return send_from_directory(static_assets_path, path)
@@ -35,7 +38,6 @@ def send_static(path):
 
 @app.route("/api/upload", methods=["POST"])
 def uploadVideo():
-
     def isAllowed(filename):
         return len(filter(lambda ext: ext in filename, ["avi", "mpg", "mpeg", "mkv", "webm", "mp4"])) > 0
 
@@ -66,24 +68,23 @@ def use_example(example_id):
 
 
 def bad_request(reason):
-    response = jsonify({"error" : reason})
+    response = jsonify({"error": reason})
     response.status_code = 400
     return response
 
 
 # -------- Prediction & Features --------
 def get_prediction(file_path):
-
     # predictions = external_script.predict(file_path)
     predictions = np.ones((100, 10))
 
     file_path = file_path + "?cachebuster=%s" % time.time()
     result = {
-        "video" : {
-            "url" : "%s" % file_path,
-            "framerate" : 25
+        "video": {
+            "url": "%s" % file_path,
+            "framerate": 25
         },
-        "frames" : []
+        "frames": []
     }
 
     for index, row in enumerate(predictions):
@@ -92,15 +93,14 @@ def get_prediction(file_path):
 
         five_best = np.argpartition(row, -5)[-5:]
         for i in five_best:
-            pred_per_label.append({"label" : i, "prob" : row[i]})
+            pred_per_label.append({"label": i, "prob": row[i]})
 
         new_frame = {
-            "frameNumber" : index,
-            "predictions" : pred_per_label
+            "frameNumber": index,
+            "predictions": pred_per_label
         }
 
         result["frames"].append(new_frame)
-
 
     return result
 
@@ -108,10 +108,10 @@ def get_prediction(file_path):
 if __name__ == "__main__":
     # Start the server
     app.config.update(
-        DEBUG = True,
-        SECRET_KEY = "asassdfs",
-        CORS_HEADERS = "Content-Type",
-        UPLOAD_FOLDER = "videos"
+        DEBUG=True,
+        SECRET_KEY="asassdfs",
+        CORS_HEADERS="Content-Type",
+        UPLOAD_FOLDER="videos"
     )
 
     # Make sure all frontend assets are compiled
