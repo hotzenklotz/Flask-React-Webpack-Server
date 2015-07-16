@@ -24,7 +24,10 @@ CORS(app)
 @app.route("/", defaults={"fall_through": ""})
 @app.route("/<path:fall_through>")
 def index(fall_through):
-    return app.send_static_file("index.html")
+    if fall_through:
+        return redirect(url_for("index"))
+    else:
+        return app.send_static_file("index.html")
 
 
 @app.route("/dist/<path:asset_path>")
