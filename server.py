@@ -36,12 +36,28 @@ def slice_in_chunks(els, n):
         yield els[i:i+n]
 
 
+def clear_folder(folder):
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path): 
+                shutil.rmtree(file_path)
+        except Exception, e:
+            print e
+
 # ----- Video -----------
 import caffe
 
 
-def get_frames(video_file_name, frame_rate, output_folder):
+def create_frames(video_file_name, frame_rate, output_folder):
     cmd = "ffmpeg -n -nostdin -i \"%s\" -r \"%d\" -qscale:v 2 \"%s/%%4d.jpg\"" % (video_file_name, frame_rate, output_folder)
+    subprocess.call(cmd, shell=True)
+    return output_folder
+
+def create_flows(frame_folder, output_folder):
+    cmd = "%s %s %s 0" % (app.config["FLOW_CMD"], frame_folder, output_folder)
     subprocess.call(cmd, shell=True)
     return output_folder
 
@@ -148,10 +164,11 @@ def bad_request(reason):
 
 # -------- Prediction & Features --------
 def get_prediction(file_path):
-    temp_dir = path.join(app.config["TEMP_FOLDER"], "", file_path)
+    temp_dir = path.join(app.config["TEMP_FOLDER"], "frames", file_path)
     shutil.rmtree(temp_dir, ignore_errors=True)
     os.makedirs(temp_dir)
-    get_frames(file_path, 25, temp_dir)
+    create_frames(file_path, 25, temp_dir)
+    create_flows(temp_dir)
 
     # predictions = external_script.predict(file_path)
     predictions = predict_caffe(frames_in_folder(temp_dir))
@@ -196,12 +213,15 @@ if __name__ == "__main__":
         UPLOAD_FOLDER="videos",
         TEMP_FOLDER="temp",
         LABEL_MAPPING="/Users/tombocklisch/Documents/Studium/Master Project/models/label_mapping.txt",
+        FLOW_CMD="/Users/tombocklisch/Documents/Studium/Master Project/somefile",
         CAFFE_BATCH_LIMIT=50,
         CAFFE_NUM_LABELS=101,
         CAFFE_SPATIAL_PROTO="/Users/tombocklisch/Documents/Studium/Master Project/models/deploy.prototxt",
         CAFFE_SPATIAL_MODEL="/Users/tombocklisch/Documents/Studium/Master Project/models/_iter_70000.caffemodel",
         CAFFE_SPATIAL_MEAN="/Users/tombocklisch/Documents/Studium/Master Project/models/ilsvrc_2012_mean.npy"  #"/home/mpss2015/caffe/python/caffe/imagenet/ilsvrc_2012_mean.npy"
     )
+    
+    clear_folder(path.join(app.config["TEMP_FOLDER"], "frames"))
 
     load_label_mapping()
 
