@@ -4,3 +4,4 @@ Jinja2==2.7.3
 Routes==2.0
 Werkzeug==0.9.6
 requests==2.3.0
+numpy==1.9.1
